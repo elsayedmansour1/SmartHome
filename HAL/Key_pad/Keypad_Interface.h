@@ -2,8 +2,8 @@
 #define _KEYPAD_INTERFACE_H_
 
 
-#define DIO_Keypad DIO_PORTB
-
+#define DIO_Keypad_Columns DIO_PORTC
+#define DIO_Keypad_Rows    DIO_PORTA
 
 
 void KEYPAD_VidInit(void);

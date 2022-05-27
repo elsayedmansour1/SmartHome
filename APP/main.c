@@ -19,6 +19,7 @@
 #include "../HAL/LDR/LDR_Interface.h"
 #include "../HAL/LM35/LM35_Interface.h"
 #include "../HAL/Servo/Servo_Interface.h"
+#include "../HAL/Key_pad/Keypad_Interface.h"
 #include "util/delay.h"
 
 void ADC_InterruptFunction(void);
@@ -30,9 +31,12 @@ int main(void)
 
 	u16 LDR_Result=0;
 	u16 LM35_Result=0;
+	u8 Keypad_out=0;
 	DIO_VidSetPinDirection(DIO_PORTD,PIN5,OUTPUT);
 	/*LCD initialization*/
 	LCD_VidInit();
+	/*Keypad Initialization*/
+	KEYPAD_VidInit();
 	/*Servo Initialization*/
 	Servo_VoidInit();
 	/*LDR Function */
@@ -45,17 +49,26 @@ int main(void)
 	LCD_4Bits_VoidClearDisplay();
 	while(1)
 	{
+		Keypad_out=KEYPAD_GET_PressedKey();
+		if(Keypad_out!=0)
+		{
+			if(Keypad_out==1)
+			{
+				LCD_4Bits_VoidClearDisplay();
+				Servo_u8DoorState(open);
+				LCD_4Bits_SetPosition(0,0);
+				LCD_4Bits_DisplayString("The Door is open>>>>");
+			}
+			else if(Keypad_out==2)
+			{
+				LCD_4Bits_VoidClearDisplay();
+				Servo_u8DoorState(close);
+				LCD_4Bits_SetPosition(0,0);
+				LCD_4Bits_DisplayString("The Door is Close<<<<<");
+			}
+		}
+		Keypad_out=0;
 
-		Servo_u8DoorState(open);
-		LCD_4Bits_SetPosition(0,0);
-		LCD_4Bits_DisplayString("The Door is open>>>>");
-		_delay_ms(1000);
-		LCD_4Bits_VoidClearDisplay();
-		Servo_u8DoorState(close);
-		LCD_4Bits_SetPosition(0,0);
-		LCD_4Bits_DisplayString("The Door is Close<<<<<");
-		_delay_ms(1000);
-		LCD_4Bits_VoidClearDisplay();
 		/*the functional of LDR function*/
 		LDR_Result=LDR_u8Channal(1);
 		LCD_4Bits_SetPosition(0,0);
