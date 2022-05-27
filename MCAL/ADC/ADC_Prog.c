@@ -113,7 +113,10 @@ void ADC_Get_Result(u16 *ptr)
 {
 	*ptr=ADC;
 }
-
+void ADC_Disable(void)
+{
+	CLR_BIT(ADCSRA,ADEN);
+}
 
 
 
