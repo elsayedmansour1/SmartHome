@@ -37,21 +37,9 @@ void LCD_VidInit(void);
 
 void LCD_VidWriteCommend(u8 LOC_u8command);
 
-void LCD_VidWriteData(u8 LOC_u8data);
-
-void LCD_VidWriteString(char *ptr);
-
-void LCD_VidWriteNumber(u32 LOC_u32num);
-
-void LCD_GoToXY(u8 row,u8 col);
-
-void LCD_CLEAR(u8 Row,u8 start,u8 end);
-
-void LCD_VoidWriteSpecialCharacter(u8 *Copy_pPattern,u8 blockNo,u8 Copy_u8X,u8 Copy_u8Y);
-void LCD_VoidClearDisplay(void);
+void LCD_4Bits_VoidClearDisplay(void);
 void LCD_4Bits_DisplayCharacter(u8 Copy_u8Data);
 void LCD_4Bits_DisplayString(u8* PCopy_u8String);
-void LCD_LCD_4Bits_GoToXY(u8 row,u8 col);
 void LCD_4Bits_VidWriteNumber(u32 LOC_u32num);
-void LCD_Vid4Bits_SetPosition(u8 Copy_u8LineNumber,u8 Copy_u8PositionNumber);
+void LCD_4Bits_SetPosition(u8 Copy_u8LineNumber,u8 Copy_u8PositionNumber);
 #endif /* LCD_INTERFACE_H_ */

@@ -1,3 +1,9 @@
+/*******************************************************************/
+/**************** Name    : Mohamed Ahmed Hafiz ********************/
+/**************** Date    : 17/10/2020          ********************/
+/**************** SWC     :    EEPROM           ********************/
+/**************** Version :     1.0             ********************/
+/*******************************************************************/
 #include "../../LIB/BIT_MATH.h"
 #include "../../LIB/STD_TYPES.h"
 #define F_CPU 8000000UL
@@ -32,7 +38,7 @@ u8   EEPROM_u8WriteDataByte(u8 Copy_u8Data,u16 Copy_u16ByteAddress)
 	Local_u8ErrorState     = Private_u8ErrorStateCheck(Local_enuTWIErrorState);
 
 	/* Send The Data Byte */
-	Local_enuTWIErrorState = TWI_enuSendDataByte(Copy_u8Data);
+	Local_enuTWIErrorState = TWI_enuSendDataByte((u8)Copy_u8Data);
 	Local_u8ErrorState     = Private_u8ErrorStateCheck(Local_enuTWIErrorState);
 
 	/* Send Stop Condition */

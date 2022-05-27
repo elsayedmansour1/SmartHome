@@ -121,7 +121,7 @@ void LCD_VidWriteData(u8 LCD_u8Data)
 #endif
 
 }
-void LCD_VoidClearDisplay(void)
+void LCD_4Bits_VoidClearDisplay(void)
 {
 	LCD_VidWriteCommend(0x01>>4);
 	LCD_VidWriteCommend(0x01);
@@ -173,7 +173,7 @@ if(y==0)
 	}
 }
 }
-void LCD_Vid4Bits_SetPosition(u8 Copy_u8LineNumber,u8 Copy_u8PositionNumber)
+void LCD_4Bits_SetPosition(u8 Copy_u8LineNumber,u8 Copy_u8PositionNumber)
 {
 	if((Copy_u8LineNumber==0)&&((Copy_u8PositionNumber>=0)&&(Copy_u8PositionNumber<16)))
 	{
