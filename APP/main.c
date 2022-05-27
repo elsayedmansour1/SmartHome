@@ -12,10 +12,13 @@
 #include "../MCAL/DIO/DIO_INT.h"
 #include "../MCAL/DIO/DIO_config.h"
 #include "../MCAL/ADC/ADC_INT.h"
+#include "../MCAL/TIMER/TIMER_Interface.h"
+#include "../MCAL/TIMER/TIMER1_Define.h"
 		/*hardware*/
 #include "../HAL/LCD/LCD_Interface.h"
 #include "../HAL/LDR/LDR_Interface.h"
 #include "../HAL/LM35/LM35_Interface.h"
+#include "../HAL/Servo/Servo_Interface.h"
 #include "util/delay.h"
 
 void ADC_InterruptFunction(void);
@@ -27,36 +30,45 @@ int main(void)
 
 	u16 LDR_Result=0;
 	u16 LM35_Result=0;
+	DIO_VidSetPinDirection(DIO_PORTD,PIN5,OUTPUT);
 	/*LCD initialization*/
 	LCD_VidInit();
-	/*ADC initialization*/
-	/*ADC_VidINIT();
-	ADC_Select_Channal(2);
-	ADC_Start_Conversion();*/
+	/*Servo Initialization*/
+	Servo_VoidInit();
+	/*LDR Function */
 	LDR_u8Init(PIN1,ADC_InterruptFunction);
+	/*LM35 function*/
 	LM35_u8Init(PIN2,ADC_InterruptFunction);
+	/*the Intro*/
 	LCD_4Bits_DisplayString("WELCOME BACK");
 	_delay_ms(1000);
 	LCD_4Bits_VoidClearDisplay();
 	while(1)
 	{
-		/*ADC_Get_Result(&LDR_Result);
+
+		Servo_u8DoorState(open);
 		LCD_4Bits_SetPosition(0,0);
-		LCD_4Bits_DisplayString("LDR Value =");
-		LCD_4Bits_VidWriteNumber(LDR_Result);
-		_delay_ms(300);
-		LCD_4Bits_VoidClearDisplay();*/
+		LCD_4Bits_DisplayString("The Door is open>>>>");
+		_delay_ms(1000);
+		LCD_4Bits_VoidClearDisplay();
+		Servo_u8DoorState(close);
+		LCD_4Bits_SetPosition(0,0);
+		LCD_4Bits_DisplayString("The Door is Close<<<<<");
+		_delay_ms(1000);
+		LCD_4Bits_VoidClearDisplay();
+		/*the functional of LDR function*/
 		LDR_Result=LDR_u8Channal(1);
 		LCD_4Bits_SetPosition(0,0);
-		LCD_4Bits_DisplayString("brightness =");
-		//LCD_4Bits_SetPosition(0,10);
+		LCD_4Bits_DisplayString("Brightness =");
 		LCD_4Bits_VidWriteNumber(LDR_Result);
+		/*the functional of LM35 function*/
 		LM35_Result=LM35_u8Channal(2);
 		LCD_4Bits_SetPosition(1,0);
 		LCD_4Bits_DisplayString("Temperature =");
-		//LCD_4Bits_SetPosition(1,10);
 		LCD_4Bits_VidWriteNumber(LM35_Result);
+		/*Waiting for 500 ms*/
 		_delay_ms(500);
+		/*clear Display*/
 		LCD_4Bits_VoidClearDisplay();
 
 	}
