@@ -20,6 +20,8 @@
 #include "../HAL/LM35/LM35_Interface.h"
 #include "../HAL/Servo/Servo_Interface.h"
 #include "../HAL/Key_pad/Keypad_Interface.h"
+#include "../HAL/DC_Motor/DC_Motor.h"
+#include "../HAL/Buzzer/Buzzer.h"
 #include "util/delay.h"
 
 void ADC_InterruptFunction(void);
@@ -39,6 +41,10 @@ int main(void)
 	KEYPAD_VidInit();
 	/*Servo Initialization*/
 	Servo_VoidInit();
+	/*Buzzer Initialization*/
+	Buzzer_VoidInit();
+	/*DC Motor Initialization*/
+	DC_Motor_VoidInit();
 	/*LDR Function */
 	LDR_u8Init(PIN1,ADC_InterruptFunction);
 	/*LM35 function*/
@@ -58,6 +64,7 @@ int main(void)
 				Servo_u8DoorState(open);
 				LCD_4Bits_SetPosition(0,0);
 				LCD_4Bits_DisplayString("The Door is open>>>>");
+				_delay_ms(150);
 			}
 			else if(Keypad_out==2)
 			{
@@ -65,6 +72,7 @@ int main(void)
 				Servo_u8DoorState(close);
 				LCD_4Bits_SetPosition(0,0);
 				LCD_4Bits_DisplayString("The Door is Close<<<<<");
+				_delay_ms(150);
 			}
 		}
 		Keypad_out=0;
@@ -79,6 +87,21 @@ int main(void)
 		LCD_4Bits_SetPosition(1,0);
 		LCD_4Bits_DisplayString("Temperature =");
 		LCD_4Bits_VidWriteNumber(LM35_Result);
+		if(LM35_Result>35)
+		{
+			DC_Motor_On_Off(ON);
+
+
+		}
+	     if(LM35_Result>40)
+		{
+			Buzzer_On_Off(ON);
+		}
+		if(LM35_Result<35)
+		{
+			DC_Motor_On_Off(OFF);
+			Buzzer_On_Off(OFF);
+		}
 		/*Waiting for 500 ms*/
 		_delay_ms(500);
 		/*clear Display*/
